@@ -23,7 +23,7 @@ st.markdown("<h1 style='text-align: left; font-size: 22px; color: #008000;'> All
 
 # streamlit sharing
 xx = pd.read_csv(
-    "/app/projects_and_workings/Real_life_projects/House_Price_Prediction/deployment/streamlit_sharing/df_new_grouped.csv")
+    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/df_new_grouped.csv")
 
 df_new_grouped = pd.DataFrame(xx)
 # df_new_grouped.set_index("date", inplace=True)
@@ -134,18 +134,18 @@ st.markdown("<h1 style='text-align: left; font-size: 20px; color:#2196F3;'>Click
 
 # streamlit sharing
 X_new = pd.DataFrame(pd.read_csv(
-    "/app/projects_and_workings/Real_life_projects/House_Price_Prediction/deployment/streamlit_sharing/X_new_single_row.csv"))
+    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/X_new_single_row.csv"))
 X_new.set_index("date", inplace=True)
 
 df = pd.get_dummies(df).reindex(columns=X_new.columns, fill_value=0)
 
 # streamlit sharing
 model = pickle.load(open(
-    "/app/projects_and_workings/Real_life_projects/House_Price_Prediction/deployment/streamlit_sharing/best_model_xgbm_final.pkl", "rb"))
+    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/best_model_xgbm_final.pkl", "rb"))
 
 # streamlit sharing
 scaler = joblib.load(
-    "/app/projects_and_workings/Real_life_projects/House_Price_Prediction/deployment/streamlit_sharing/scaler")
+    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler")
 
 # df = scaler.transform(df)
 
