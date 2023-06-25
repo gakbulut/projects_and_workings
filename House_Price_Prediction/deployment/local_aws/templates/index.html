@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- FONTS -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Arimo"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Hind:300"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"
+      rel="stylesheet"
+    />
+
+    <title>House Price Prediction</title>
+    <style>
+      h1 {
+        font-size: 28px;
+        color: black;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      h5 {
+        /* background-color: #4caf50; */
+        border: none;
+        color: black;
+        padding: 10px 21px;
+        text-align: center;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container col-5">
+      <h1>House Price Prediction</h1>
+      <form
+        id="gonderilenform"
+        class="form-control"
+        action="{{url_for('predict')}}"
+        method="post"
+      >
+        <div>
+          <select
+            class="form-select"
+            name="province-select"
+            id="province-select"
+            onclick="post();"
+          >
+            <option value="">Select Province -- İl Seçiniz</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="county-select"
+            id="county-select"
+            onclick="post();"
+          >
+            <option value="">Select County -- İlçe Seçiniz</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="neighborhood-select"
+            id="neighborhood-select"
+            onclick="post();"
+          >
+            <option value="">Select Neighborhood -- Mahalle Seçiniz</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="norh-select"
+            id="norh-select"
+            onclick="post();"
+          >
+            <option value="">
+              Select Room + Hall Number -- Salon + Oda Sayısını Seçiniz
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <input
+            class="form-select"
+            type="number"
+            name="Net_M2-select"
+            id="Net_M2-select"
+            placeholder="Enter House Area M2"
+            required="required"
+            onclick="post();"
+          />
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="floor-select"
+            id="floor-select"
+            onclick="post();"
+          >
+            <option value="">Select Floor -- Katı Seçiniz</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="nof-select"
+            id="nof-select"
+            onclick="post();"
+          >
+            <option value="">
+              Select Number of Floors -- Bina Kat Sayısını Seçiniz
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <input
+            class="form-select"
+            type="number"
+            min="0"
+            max="50"
+            name="age-select"
+            id="age-select"
+            placeholder="Enter House Age"
+            required="required"
+            onclick="post();"
+          />
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="nob-select"
+            id="nob-select"
+            onclick="post();"
+          >
+            <option value="">
+              Select Number of Bathrooms -- Banyo Sayısı Seçiniz
+            </option>
+          </select>
+        </div>
+
+        <div class="satir">
+          <select
+            class="form-select"
+            name="facade-select"
+            id="facade-select"
+            onclick="post();"
+          >
+            <option value="">Select Side Count -- Cephe Sayısı Seçiniz</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="heating_type-select"
+            id="heating_type-select"
+            onclick="post();"
+          >
+            <option value="">
+              Select Heating Type -- Isınma Türünü Seçiniz
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            class="form-select"
+            name="insite-select"
+            id="insite-select"
+            onclick="post();"
+          >
+            <option value="" selected="selected">
+              Is Your House In Site? -- Site İçerisinde mi?
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <input
+            class="form-select"
+            type="float"
+            name="dolar-select"
+            id="dolar-select"
+            placeholder="Enter Current Dollar Rate. Please use point (.) for decimal number"
+            required="required"
+            onclick="post();"
+          />
+        </div>
+        <div>
+          <button
+            type="submit"
+            id="button"
+            value="Submit"
+            class="btn btn-success mt-3"
+          >
+            Prediction
+          </button>
+          <a class="btn btn-success mt-3" href="http://127.0.0.1:5000/">
+            New Prediction
+          </a>
+        </div>
+      </form>
+      <div>
+        <h5>{{prediction_text}}</h5>
+      </div>
+    </div>
+
+    <!-- BOOTSTRAP Bundle with Popper -->
+    <!-- <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script> -->
+
+    <!-- JAVASCRIPT -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- JQUERY -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- JQUERY AJAX-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+      // SELECTING OF PROVINCE
+      $.getJSON("static/json/sehir.json", function (result) {
+        $.each(result, function (index, value) {
+          var row = "";
+          row +=
+            '<option value="' +
+            value.sehir_key +
+            '">' +
+            value.sehir_title +
+            "</option>";
+          $("#province-select").append(row);
+        });
+      });
+
+      // SELECTING OF COUNTY
+      $("#province-select").on("change", function () {
+        var il = $(this).val();
+        // $("#county-select").attr("disabled", false).html("");   disabled="disabled"
+        $("#county-select").html(
+          "<option value = ''>Select County -- İlçe Seçiniz</option>"
+        );
+        $.getJSON("static/json/ilce.json", function (result) {
+          $.each(result, function (index, value) {
+            var row = "";
+            if (value.ilce_sehirkey == il) {
+              row +=
+                '<option value="' +
+                value.ilce_key +
+                '">' +
+                value.ilce_title +
+                "</option>";
+              $("#county-select").append(row);
+            }
+          });
+        });
+      });
+
+      // SELECTING OF NEIGBORHOOD
+      $("#county-select").on("change", function () {
+        var ilce = $(this).val();
+        // $("#neighborhood-select").attr("disabled", false).html("");   disabled="disabled"
+        $("#neighborhood-select").html(
+          "<option value = ''>Select Neighborhood -- Mahalle Seçiniz</option>"
+        );
+        $.getJSON("static/json/mahalle.json", function (result) {
+          $.each(result, function (index, value) {
+            var row = "";
+            if (value.mahalle_ilcekey == ilce) {
+              row +=
+                '<option value="' +
+                value.mahalle_key +
+                '">' +
+                value.mahalle_title +
+                "</option>";
+              $("#neighborhood-select").append(row);
+            }
+          });
+        });
+      });
+
+      // SELECTING OF SOKAK-CADDE
+      $("#neighborhood-select").on("change", function () {
+        var mahalle = $(this).val();
+        // $("#street-select").attr("disabled", false).html("");   disabled="disabled"
+        $("#street-select").html(
+          "<option value = ''>Select Street -- Sokak-Cadde Seçiniz</option>"
+        );
+        $.getJSON("static/json/sokak_cadde.json", function (result) {
+          $.each(result, function (index, value) {
+            var row = "";
+            if (value.sokak_cadde_mahallekey == mahalle) {
+              row +=
+                '<option value="' +
+                value.sokak_cadde_title +
+                '">' +
+                value.sokak_cadde_title +
+                "</option>";
+              $("#sokak-select").append(row);
+            }
+          });
+        });
+      });
+    </script>
+
+    <!-- SELECT ROOM + HALL NUMBER -- SALON + ODA SAYISINI SEÇINIZ -->
+    <script>
+      var room_hall = [
+        "1 + 0",
+        "1 + 1",
+        "2 + 0",
+        "2 + 1",
+        "2 + 2",
+        "3 + 0",
+        "3 + 1",
+        "3 + 2",
+        "4 + 0",
+        "4 + 1",
+        "4 + 2",
+        "5 + 0",
+        "5 + 1",
+        "5 + 2",
+        "6 + 0",
+        "6 + 1",
+        "6 + 2",
+      ];
+      var select = document.getElementById("norh-select");
+      for (index in room_hall) {
+        select.options[select.options.length] = new Option(
+          room_hall[index],
+          index
+        );
+      }
+    </script>
+
+    <!-- SELECT FLOOR -- KAT SEÇİNİZ -->
+    <script>
+      var floors = [
+        "Bodrum (Basement)",
+        "Yarı Bodrum (Semibasement)",
+        "Zemin (Ground)",
+        "Çatı Katı (Loft)",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21 and over",
+      ];
+      var select = document.getElementById("floor-select");
+      for (index in floors) {
+        select.options[select.options.length] = new Option(
+          floors[index],
+          index
+        );
+      }
+    </script>
+
+    <!-- SELECT NUMBER OF FLOORS -- BINA KAT SAYISINI SEÇINIZ -->
+    <script>
+      var nofloors = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6-10",
+        "11-15",
+        "16-20",
+        "21 and over",
+      ];
+      var select = document.getElementById("nof-select");
+      for (index in nofloors) {
+        select.options[select.options.length] = new Option(
+          nofloors[index],
+          index
+        );
+      }
+    </script>
+    <!-- SELECT NUMBER OF BATHROOMS -- BANYO SAYISI SEÇINIZ -->
+    <script>
+      var nobs = [1, 2, 3, 4, 5, 6];
+      var select = document.getElementById("nob-select");
+      for (index in nobs) {
+        select.options[select.options.length] = new Option(nobs[index], index);
+      }
+    </script>
+
+    <!-- SELECT SIDE COUNT -- CEPHE SAYISI SEÇINIZ -->
+    <script>
+      var sides = [1, 2, 3, 4];
+      var select = document.getElementById("facade-select");
+      for (index in sides) {
+        select.options[select.options.length] = new Option(sides[index], index);
+      }
+    </script>
+
+    <!-- SELECT SIDE COUNT -- CEPHE SAYISI SEÇINIZ -->
+    <script>
+      var heating = [
+        "Kombi (Combi boiler)",
+        "Merkezi (Central)",
+        "Klima (Air conditioning)",
+        "Soba (Stone)",
+        "Kat Kaloriferi (Floor Heater)",
+        "Diğer (Other)",
+      ];
+      var select = document.getElementById("heating_type-select");
+      for (index in heating) {
+        select.options[select.options.length] = new Option(
+          heating[index],
+          index
+        );
+      }
+    </script>
+
+    <!-- IS YOUR HOUSE IN SITE? -- SITE İÇERISINDE Mİ? -->
+    <script>
+      var insite = ["Yes", "No"];
+      var select = document.getElementById("insite-select");
+      for (index in insite) {
+        select.options[select.options.length] = new Option(
+          insite[index],
+          index
+        );
+      }
+    </script>
+
+    <script>
+      // CHANGING OF VALUES
+      $("#province-select").change(function () {
+        var xValue = $("#province-select option:selected").text();
+        $("#province-select option:selected").val(xValue);
+      });
+
+      $("#county-select").change(function () {
+        var xValue = $("#county-select option:selected").text();
+        $("#county-select option:selected").val(xValue);
+      });
+
+      $("#neighborhood-select").change(function () {
+        var xValue = $("#neighborhood-select option:selected").text();
+        $("#neighborhood-select option:selected").val(xValue);
+      });
+
+      // $("#norh-select").change(function () {
+      //   $("#norh-select option:selected").toString();
+      // });
+
+      $("#norh-select").change(function () {
+        var xValue = $("#norh-select option:selected").text();
+        $("#norh-select option:selected").val(xValue);
+      });
+    </script>
+
+    <!-- <script type="text/javascript">
+      $(document).ready(function () {
+        $("#buton").on("click", function () {
+          // buton idli elemana tıklandığında
+          var gonderilenform = $("#gonderilenform").serialize(); // idsi gonderilenform olan formun içindeki tüm elemanları serileştirdi ve gonderilenform adlı değişken oluşturarak içine attı
+
+          $.ajax({
+            url: "ajax.php", // serileştirilen değerleri ajax.php dosyasına
+            type: "POST", // post metodu ile
+            data: gonderilenform, // yukarıda serileştirdiğimiz gonderilenform değişkeni
+            success: function (e) {
+              // gonderme işlemi başarılı ise e değişkeni ile gelen değerleri aldı
+              $("div").html("").html(e); // div elemanını her gönderme işleminde boşalttı ve gelen verileri içine attı
+            },
+          });
+        });
+      });
+    </script> -->
+
+    <!-- <script>
+      $(function () {
+        $("#button").click(function () {
+          var province = $("[name=province-selectd]").val();
+          var county = $("[name=county-selec]").val();
+          var $neighborhood = $("[name=neighborhood-select]").val();
+          var $norh = $("[name=norh-select]").val();
+          var $Net_M2 = $("[name=Net_M2-select]").val();
+          var $floor = $("[name=floor-select]").val();
+          var $nof = $("[name=nof-select]").val();
+          var $age = $("[name=age-select]").val();
+          var $nob = $("[name=nob-select]").val();
+          var $facade = $("[name=facade-select]").val();
+          var $heating_type = $("[name=heating_type-select]").val();
+          var $insite = $("[name=insite-select]").val();
+          var $dolar = $("[name=dolar-select]").val();
+          var deger =
+            "province=" +
+            province +
+            "&county=" +
+            county +
+            "&neighborhood=" +
+            neighborhood +
+            "&norh=" +
+            norh +
+            "&Net_M2=" +
+            Net_M2 +
+            "&floor=" +
+            floor +
+            "&nof=" +
+            nof +
+            "&age=" +
+            age +
+            "&nob=" +
+            nob +
+            "&facade=" +
+            facade +
+            "&heating_type=" +
+            heating_type +
+            "&insite=" +
+            insite +
+            "&dolar=" +
+            dolar;
+
+          $.ajax({
+            type: "POST",
+            url: "post.php",
+            data: deger,
+            success: function (sonuc) {},
+          });
+        });
+      });
+    </script> -->
+
+    <!-- <script type="text/javascript">
+      function post() {
+        $("#button").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "islem.php",
+            data: $("#gonderilenform").serialize(),
+            success: function (cevap) {
+              $("div").html("").html(cevap);
+              // $("#sonuc").html(cevap);
+            },
+          });
+        });
+      }
+    </script> -->
+  </body>
+</html>
