@@ -156,4 +156,4 @@ if st.button("Prediction"):
     st.info("The estimated price of your house is {price:,} ₺. &nbsp; &nbsp; &nbsp; &nbsp; TRAIN R2: 0.95, TEST R2: 0.90".format(
         price=int(prediction[0])*int(Net_M2)))
     # st.markdown("<p style='text-align: center; font-size: 18px; color:#4D4D4D'><b>Güneş Akbulut</b> <br/> Data Scientist &nbsp; & &nbsp;<p/>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-size: 18px; color:#4D4D4D'><b>Güneş Akbulut</b> <br/> Data Scientist <br /> <a href = https://www.linkedin.com/in/gunesakbulut> Linkedin <a/><p/>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 18px; color:#4D4D4D'><b>Güneş Akbulut</b> <br/> Data Scientist <br /> <a href = https://www.linkedin.com/in/gakbulut> Linkedin <a/><p/>", unsafe_allow_html=True)
