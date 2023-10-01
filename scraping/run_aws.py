@@ -13,6 +13,7 @@ logger = logging.Logger('catch_all')
 from bs4 import BeautifulSoup
 import requests
 
+from pyvirtualdisplay import Display
 import selenium
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -86,8 +87,10 @@ def webdriverFirefox():
     option.headless = True
     option.add_argument(f"proxy-server={randomProxy()}, user-agent={randomUserAgent()}")
     # Initialize the webdriver
+    display = Display(visible=False, size=(1024, 768))
+    display.start()
     driver = webdriver.Firefox(service=service, options=option)   
-    return driver
+    return driver, display
 
 def sleeping(RetryTime):
     for i in range(RetryTime+1):
@@ -95,7 +98,7 @@ def sleeping(RetryTime):
         time.sleep(1)
 
 def navigateAndPull(url):
-    driver = webdriverFirefox()
+    driver, display = webdriverFirefox()
     driver.get(url)
     # print(driver.title)
     driver.maximize_window()
@@ -229,6 +232,7 @@ def navigateAndPull(url):
         pass
     
     driver.quit()
+    display.stop()
     return df_linklist, page_statement, int(result_count), errorr
 
 
