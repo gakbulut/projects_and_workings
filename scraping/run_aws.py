@@ -87,7 +87,7 @@ def webdriverFirefox():
     option.headless = True
     option.add_argument(f"proxy-server={randomProxy()}, user-agent={randomUserAgent()}")
     # Initialize the webdriver
-    display = Display(visible=True, size=(1024, 768))
+    display = Display(visible=False, size=(1024, 768))
     display.start()
     driver = webdriver.Firefox(service=service, options=option)   
     return driver, display
