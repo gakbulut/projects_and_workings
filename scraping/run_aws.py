@@ -11,6 +11,7 @@ import logging
 logger = logging.Logger('catch_all')
 
 from bs4 import BeautifulSoup
+from lxml import etree
 import requests
 
 from pyvirtualdisplay import Display
@@ -88,6 +89,7 @@ def webdriverFirefox():
     option.add_argument(f"proxy-server={randomProxy()}, user-agent={randomUserAgent()}")
     # Initialize the webdriver
     display = Display(visible=False, size=(1024, 768))
+    # display = Xvfb()
     display.start()
     driver = webdriver.Firefox(service=service, options=option)   
     return driver, display
@@ -96,6 +98,17 @@ def sleeping(RetryTime):
     for i in range(RetryTime+1):
         print(f"{i}", end="\r", flush=True)
         time.sleep(1)
+
+# PUBLIC IP ADDRESS
+def ipaddress():
+    urlll = "https://ip-adresim.net/araclar/ip-yeri?"
+    response = requests.get(urlll)
+    html = response.content
+    soup = BeautifulSoup(html, "html.parser")
+    dom = etree.HTML(str(soup))
+    ipAddress_link = dom.xpath("//strong/a")
+    ipAddress = [link.text.strip() if link.text.strip() else "NotFound" for link in ipAddress_link]
+    print("IP Address: ", ipAddress[0])
 
 def navigateAndPull(url):
     driver, display = webdriverFirefox()
@@ -242,6 +255,7 @@ def finalPulling(State_Zipcode, Type, RetryTime):
     result_countt_list=[]
     while True:             
         url = (f"https://www.zillow.com/{State_Zipcode}/{Type}/{pageNo}_p/")
+        ipaddress()
         df_linklist, page_statementt, result_countt, errorr = navigateAndPull(url)
         result_countt_list.append(result_countt)
         most_common_result_countt = Counter(result_countt_list).most_common(1)[0][0]
