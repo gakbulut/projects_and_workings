@@ -23,7 +23,7 @@ st.markdown("<h1 style='text-align: left; font-size: 22px; color: #008000;'> All
 
 # streamlit sharing
 # xx = pd.read_csv("/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/df_new_grouped.csv")
-xx = pd.read_csv("/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/df_new_grouped.csv")
+xx = pd.read_csv("/app/projects_and_workings/blob/main/House_Price_Prediction/deployment/streamlit_sharing/df_new_grouped.csv")
 
 
 df_new_grouped = pd.DataFrame(xx)
