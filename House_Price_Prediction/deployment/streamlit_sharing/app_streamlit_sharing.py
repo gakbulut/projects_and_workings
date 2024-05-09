@@ -141,11 +141,11 @@ df = pd.get_dummies(df).reindex(columns=X_new.columns, fill_value=0)
 
 # streamlit sharing
 model = pickle.load(open(
-    "/mount/src/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/best_model_xgbm_final.pkl", "rb"))
+    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/best_model_xgbm_final.pkl", "rb"))
 
 # streamlit sharing
 scaler = joblib.load(
-    "/mount/src/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler")
+    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler")
 
 # df = scaler.transform(df)
 
