@@ -144,8 +144,9 @@ model = pickle.load(open(
     "/mount/src/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/best_model_xgbm_final.pkl", "rb"))
 
 # streamlit sharing
-scaler = joblib.load(
-    "/mount/src/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler")
+# scaler = joblib.load(
+scaler = pickle.load(open(
+    "/mount/src/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler", "rb"))
 
 # df = scaler.transform(df)
 
