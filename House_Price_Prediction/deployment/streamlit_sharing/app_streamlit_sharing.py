@@ -151,7 +151,7 @@ scaler = joblib.load(
 
 import xgboost as xgb
 booster = model.get_booster()
-booster.set_feature_types({'feature_name': 'feature_type'})
+booster.set_feature_names({'feature_name': 'feature_type'})
 prediction = booster.predict(df)
 # prediction = model.predict(df)
 # st.info(prediction)
