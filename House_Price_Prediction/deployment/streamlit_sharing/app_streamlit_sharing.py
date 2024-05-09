@@ -149,7 +149,11 @@ scaler = joblib.load(
 
 # df = scaler.transform(df)
 
-prediction = model.predict(df)
+
+booster = model.get_booster()
+booster.set_feature_types({'feature_name': 'feature_type'})
+prediction = booster.predict(df)
+# prediction = model.predict(df)
 # st.info(prediction)
 
 if st.button("Prediction"):
