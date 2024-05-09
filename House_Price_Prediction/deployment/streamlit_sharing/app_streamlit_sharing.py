@@ -145,7 +145,7 @@ model = pickle.load(open(
 
 # streamlit sharing
 scaler = joblib.load(
-    "/app/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler")
+    "/mount/src/projects_and_workings/House_Price_Prediction/deployment/streamlit_sharing/scaler")
 
 # df = scaler.transform(df)
 
