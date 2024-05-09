@@ -149,7 +149,7 @@ scaler = joblib.load(
 
 # df = scaler.transform(df)
 
-
+import xgboost as xgb
 booster = model.get_booster()
 booster.set_feature_types({'feature_name': 'feature_type'})
 prediction = booster.predict(df)
