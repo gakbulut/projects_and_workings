@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Synthesis</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Synthesis</h1>
+  <div id="output">  </div>
+  <br>
+  <textarea id="input", row="4", cols="50">Welcome to the speech-synthesis part</textarea>
+  <br><br>
+  <button id="speak">Speak</button>
+
+  <script>
+	function speak() {
+		console.log("speaking...");
+		var input = $("#input").val();
+		const inputspeech = new SpeechSynthesisUtterance(input);
+		inputspeech.lang = "en-US";
+		inputspeech.volume = 0.9; // Ses düzeyi: 0.0 ile 1.0 arasında
+		inputspeech.rate = 1.0; // Konuşma hızı: 0.1 ile 10.0 arasında
+		inputspeech.pitch = 1.0; // Ton: 0.0 ile 2.0 arasında
+		voices = window.speechSynthesis.getVoices()
+		inputspeech.voice = voices[4]
+		speechSynthesis.speak(inputspeech)
+		// speechSynthesis.speak(new SpeechSynthesisUtterance(input));
+	}
+
+	$("#speak").click(speak);
+	
+  </script>
+
+</body>
+</html>

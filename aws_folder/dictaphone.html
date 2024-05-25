@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dictaphone</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Dictaphone</h1>
+  <p id="output"></p>
+  <button id="start">Start</button>
+  <div id="output"></div>
+  
+  <script>
+	var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+	var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+	var recognition = new SpeechRecognition();
+
+	recognition.continuous = true;
+	recognition.lang = "en-US";
+	recognition.interimResults = false;
+	recognition.maxAlternatives = 1;
+  
+	function start() {
+	  recognition.start();
+	  console.log("SpeechEngine started");  
+	}
+  
+	$("#start").click(start);
+  
+	recognition.onresult = function(event) {
+		var index = event.resultIndex;
+		var result = event.results[index][0].transcript;
+        $("#output").append(result);
+	}
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSpeechApp</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>WebSpeechApp</h1>
+  <img class="state" src="koala.jpg">
+  <br>
+  <div>Must Say "ACTIVATE" to activate the system.
+	<br><br>Say "search" for Google Maps
+	<br><br>Say "dictaphone" for speech to text
+	<br><br>Say "synthesis" for text to speech
+	<br><br>Say "conversation" for chatgpt query
+  </div>
+  <br>
+  <div id="output"></div>
+
+  <script>
+	var active = false;
+	var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+	var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+	var recognition = new SpeechRecognition();
+
+	recognition.continuous = true;
+	recognition.lang = "en-US";
+	recognition.interimResults = false;
+	recognition.maxAlternatives = 1;
+  
+	recognition.start();
+	console.log("SpeechEngine started"); 
+  
+	recognition.onresult = function(event) {
+		var index = event.resultIndex;
+		var result = event.results[index][0].transcript;
+		var command = result.toLowerCase();
+		command = command.replace(" ","");
+		var output = "I heard: " + command;
+		console.log(output);
+		$("#output").text(command);
+		if (active == true){
+			if (command == "synthesis") {
+				window.open("synthesis.html");
+			} else if (command == "search") {
+				window.open("search.html");
+			} else if (command == "dictaphone") {
+				window.open("dictaphone.html");
+			} else if (command == "conversation") {
+				window.open("chatgpt.html");
+			}
+		} else if (command =="activate"){
+			active = true;
+			$("#output").html("");
+			$(".state").attr("src", "activate.jpg");
+			$(".state").addClass("animated");
+			$("#output").css("color", "red");
+		}
+		//if (event.results[0].isFinal) {
+		//	if (speechToText.includes('what is your favorite food')) {
+		//	reply('I love pizza!')
+		// }
+		//}
+	}
+
+  </script>
+
+</body>
+</html>
